@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -71,8 +72,12 @@ public class FigureUtilities {
 	 */
 	protected static GC getGC() {
 		if (gc == null) {
-			gc = new GC(new Shell());
-			appliedFont = gc.getFont();
+			Display.getDefault().syncExec(new Runnable() {
+				public void run() {
+					gc = new GC(new Shell());
+					appliedFont = gc.getFont();
+				}
+			});
 		}
 		return gc;
 	}
